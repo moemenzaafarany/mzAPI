@@ -68,14 +68,24 @@ Apache config file `API/.htaccess` contain some php settings and an important fi
 <hr>
 
 ### Handlers Folder
-All Api handlers files will be stored in `API/handlers/` and will be called as follow:
-* Real files `API/handlers/example.php`, `API/handlers/test/example.php`,
-* Files urls `API/handlers/example`, `API/handlers/test/example`,
+Handlers folder is used as the main interface where all the apis/handlers reside. <br>
+All handlers files will be stored in `API/handlers/` and will be called as follow:
+* Flat file `API/handlers/example.php` => `API/example`.
+* File within a folder `API/handlers/test/example.php` => `API/test/example`. 
+<br>
+In short, any php file in handlers is can be accessed through `API/{file location in handlers}` without the .php ext.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
 
 ### Includes Folder
+Includes folder is where the repetitive functions that will be called by multiple handlers reside. <br>
+All includes files will be stored in `API/includes/` and will be called as follow:
+* Flat file `API/includes/example.php` => `mzAPI::includes(['example']);`.
+* File within a folder `API/includes/test/example.php` => `mzAPI::includes(['test/example']);`.
+<br>
+In short, any php file in includes is can be accessed through `mzAPI::includes(['{file location in includes}']);` without the .php ext.
+
 Apache config file `API/.htaccess` contain some php settings and an important file so the APIs coud run, edit with discretion.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
