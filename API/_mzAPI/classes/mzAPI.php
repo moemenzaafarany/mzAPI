@@ -294,7 +294,7 @@ class mzAPI
             if (!mzAPI::inc(mzAPI::DOCS_FILE)) mzAPI::html_response(404);
         } else if (mzAPI::$URL_ROOT == mzAPI::ERRORS_KEY) {
             $errors = mzAPI::ERRORS_FILE;
-            if (is_file($errors) && array_key_exists("clear", $_GET)) {
+            if (is_file($errors) &&  ltrim(mzAPI::$URL_FILE, mzAPI::ERRORS_FILE) == "clear") {
                 file_put_contents($errors, "");
             }
             if (is_file($errors)) {
