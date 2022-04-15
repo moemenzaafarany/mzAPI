@@ -16,13 +16,14 @@ class mzAPI
     public const HTACCESS_CONTENT = "# mzAPI generated DO NOT EDIT\n<IfModule mod_rewrite.c>\n\tOptions -Multiviews\n\tRewriteEngine on\n\tRewriteRule ^(.*)$ _mzAPI/index.php?mzAPIURL=$1 [QSA,END]\n</IfModule>\n# mzAPI generated EDIT AS PER NEEDED\n# to add a new value just put:\n# php_flag <key> <on/off>\n# php_value <key> <value>\nphp_flag log_errors on\nphp_flag display_errors off\nphp_flag display_startup_errors off\nphp_flag ignore_repeated_errors off\nphp_flag ignore_repeated_source off\nphp_flag report_memleaks on\nphp_flag html_errors on\nphp_flag xmlrpc_errors\toff\nphp_flag xmlrpc_error_number off\nphp_flag allow_url_fopen on\nphp_flag allow_url_include on\nphp_flag file_uploads on\nphp_value error_reporting -1\nphp_value log_errors_max_len 1024\nphp_value error_log '../errors.log'\n# inputs and memory\nphp_value max_execution_time 30\nphp_value memory_limit 256M\nphp_value max_input_time 60\nphp_value max_input_vars 100000\nphp_value max_file_uploads 100000\nphp_value post_max_size 1000M\nphp_value upload_max_filesize 1000M";
     //====================================// ERRORS
     public const ERRORS_KEY = "_errors";
+    public const ERRORS_CLEAR_KEY = "_errors/clear";
     public const ERRORS_FILE = "../errors.log";
     //====================================// MEDIA
     public const MEDIA_KEY = "_media";
     public const MEDIA_DIR = "../media/";
     //====================================// CONFIGS
     public const CONFIGS_FILE = "../configs.php";
-    public const CONFIGS_CONTENT = "\n<?php\n// project title\nmzAPI::\$TITLE = 'Project';\n// project debug mode\nmzAPI::\$DEBUG = false;\n// connections max\nmzAPI::\$MAX_CONN_PER_HOUR = 0;\nmzAPI::\$MAX_CONN_PER_MIN = 0;\nmzAPI::\$MAX_CONN_PER_MIN = 0;\n// Databases\nmzAPI::DB(\n\t'main',\n\tnew mzDatabase(\n\t\t'mysql',\n\t\t'localhost',\n\t\t'dbname',\n\t\t'username',\n\t\t'password',\n\t\tmzParams::headers('User-Timezone')\n\t)\n);";
+    public const CONFIGS_CONTENT = "\n<?php\n// project title\nmzAPI::\$TITLE = 'Project';\n// project debug mode\nmzAPI::\$DEBUG = false;\n// connections max\nmzAPI::\$MAX_CONNS_PER_HOUR = 0;\nmzAPI::\$MAX_CONNS_PER_MIN = 0;\nmzAPI::\$MAX_CONNS_PER_MIN = 0;\n// Databases\nmzAPI::DB(\n\t'main',\n\tnew mzDatabase(\n\t\t'mysql',\n\t\t'localhost',\n\t\t'dbname',\n\t\t'username',\n\t\t'password',\n\t\tmzParams::headers('User-Timezone')\n\t)\n);";
     //====================================// HANDLERS
     public const HANDLERS_DIR = "../handlers/";
     public const HANDLERS_FILE = "../handlers/example.php";
@@ -44,15 +45,15 @@ class mzAPI
     static public string $URL_FILE = "";
     static public string $URL_PARAMS = "";
     static public string $URL_FULL = "";
-    //====================================// CONN_PER
+    //====================================// CONN
     static public float $CONN_TIME = 0;
-    static public int $CONN_PER_HOUR = 0;
-    static public int $CONN_PER_MIN = 0;
-    static public int $CONN_PER_SEC = 0;
+    static public int $CONNS_PER_HOUR = 0;
+    static public int $CONNS_PER_MIN = 0;
+    static public int $CONNS_PER_SEC = 0;
     //
-    static public ?int $MAX_CONN_PER_HOUR = null;
-    static public ?int $MAX_CONN_PER_MIN = null;
-    static public ?int $MAX_CONN_PER_SEC = null;
+    static public ?int $MAX_CONNS_PER_HOUR = null;
+    static public ?int $MAX_CONNS_PER_MIN = null;
+    static public ?int $MAX_CONNS_PER_SEC = null;
     //====================================// DB
     static public function DB(string $name, mzDatabase $database = null): ?mzDatabase
     {
@@ -83,9 +84,9 @@ class mzAPI
                     "URL" => mzAPI::$URL_FULL,
                     "STATUSES" => mzAPI::STATUSES,
                     "CONNECTIONS" => [
-                        "LastHour" => mzAPI::$CONN_PER_HOUR,
-                        "LastMin" => mzAPI::$CONN_PER_MIN,
-                        "LastSec" => mzAPI::$CONN_PER_SEC,
+                        "LastHour" => mzAPI::$CONNS_PER_HOUR,
+                        "LastMin" => mzAPI::$CONNS_PER_MIN,
+                        "LastSec" => mzAPI::$CONNS_PER_SEC,
                     ],
                     "STATS" => [
                         "CodeExecutionTime-MS" => number_format((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2, ".", ""),
@@ -93,9 +94,9 @@ class mzAPI
                         "EndMemory-KB" => number_format(memory_get_usage(false) / 1000, 2, ".", ""),
                     ],
                     "SETTINGS" => [
-                        "MaxConnectionsPerHour" => mzAPI::$MAX_CONN_PER_HOUR,
-                        "MaxConnectionsPerMin" => mzAPI::$MAX_CONN_PER_MIN,
-                        "MaxConnectionsPerSec" => mzAPI::$MAX_CONN_PER_SEC,
+                        "MaxConnectionsPerHour" => mzAPI::$MAX_CONNS_PER_HOUR,
+                        "MaxConnectionsPerMin" => mzAPI::$MAX_CONNS_PER_MIN,
+                        "MaxConnectionsPerSec" => mzAPI::$MAX_CONNS_PER_SEC,
                         "MaxExecutionTime-SEC" => ini_get('max_execution_time'),
                         "MaxMemory-MB" => rtrim(ini_get('memory_limit'), "M"),
                         "MaxFileUploads" => ini_get('max_file_uploads'),
@@ -133,6 +134,7 @@ class mzAPI
         }
     }
 
+    /*
     //====================================// Errors
     static public function errors_handler(int $errno, string $errstr, string $errfile, int $errline, array $errcontext): ?bool
     {
@@ -196,6 +198,7 @@ class mzAPI
         //====================================// 
         return true;
     }
+    */
 
     //====================================// Include
     static function inc(string $path = null): bool
@@ -222,9 +225,9 @@ class mzAPI
         $times->m = mzAPI::$CONN_TIME - (1 * 60);
         $times->h = mzAPI::$CONN_TIME - (1 * 60 * 60);
         foreach ($_SESSION['LINKS'] as $i => $link) {
-            if ($times->s <= $link) mzAPI::$CONN_PER_SEC++;
-            if ($times->m <= $link) mzAPI::$CONN_PER_MIN++;
-            if ($times->h <= $link) mzAPI::$CONN_PER_HOUR++;
+            if ($times->s <= $link) mzAPI::$CONNS_PER_SEC++;
+            if ($times->m <= $link) mzAPI::$CONNS_PER_MIN++;
+            if ($times->h <= $link) mzAPI::$CONNS_PER_HOUR++;
             if ($times->h > $link) unset($_SESSION['LINKS'][$i]);
         }
         //====================================// URL
@@ -268,9 +271,9 @@ class mzAPI
         }
         include_once(mzAPI::CONFIGS_FILE);
         //====================================// session max
-        if ((!empty(mzAPI::$MAX_CONN_PER_SEC) && mzAPI::$CONN_PER_SEC > mzAPI::$MAX_CONN_PER_SEC)
-            || (!empty(mzAPI::$MAX_CONN_PER_MIN) && mzAPI::$CONN_PER_MIN > mzAPI::$MAX_CONN_PER_MIN)
-            || (!empty(mzAPI::$MAX_CONN_PER_HOUR) && mzAPI::$CONN_PER_HOUR > mzAPI::$MAX_CONN_PER_HOUR)
+        if ((!empty(mzAPI::$MAX_CONNS_PER_SEC) && mzAPI::$CONNS_PER_SEC > mzAPI::$MAX_CONNS_PER_SEC)
+            || (!empty(mzAPI::$MAX_CONNS_PER_MIN) && mzAPI::$CONNS_PER_MIN > mzAPI::$MAX_CONNS_PER_MIN)
+            || (!empty(mzAPI::$MAX_CONNS_PER_HOUR) && mzAPI::$CONNS_PER_HOUR > mzAPI::$MAX_CONNS_PER_HOUR)
         ) {
             if (mzAPI::$URL_ROOT == mzAPI::MEDIA_KEY) {
                 mzAPI::html_response(429);
@@ -281,6 +284,7 @@ class mzAPI
             }
         }
         //========================================// run
+        // media
         if (mzAPI::$URL_ROOT == mzAPI::MEDIA_KEY) {
             $media = mzAPI::MEDIA_DIR . ltrim(mzAPI::$URL_FILE, mzAPI::MEDIA_KEY);
             if (is_file($media)) {
@@ -290,17 +294,23 @@ class mzAPI
             } else {
                 mzAPI::html_response(404);
             }
-        } else if (mzAPI::$URL_ROOT == mzAPI::DOCS_KEY) {
+        }
+        // docs
+        else if (mzAPI::$URL_ROOT == mzAPI::DOCS_KEY) {
             if (!mzAPI::inc(mzAPI::DOCS_FILE)) mzAPI::html_response(404);
-        } else if (mzAPI::$URL_ROOT == mzAPI::ERRORS_KEY) {
+        }
+        // errors
+        else if (mzAPI::$URL_ROOT == mzAPI::ERRORS_KEY) {
             $errors = mzAPI::ERRORS_FILE;
-            if (is_file($errors) &&  ltrim(mzAPI::$URL_FILE, mzAPI::ERRORS_FILE) == "clear") {
+            if (is_file($errors) && mzAPI::$URL_FILE == mzAPI::ERRORS_CLEAR_KEY) {
                 file_put_contents($errors, "");
             }
             if (is_file($errors)) {
                 echo file_get_contents($errors);
             }
-        } else {
+        }
+        // handlers
+        else {
             $file = mzAPI::HANDLERS_DIR . mzAPI::$URL_FILE . ".php";
             if (!mzAPI::inc($file)) mzAPI::response(404);
         }
