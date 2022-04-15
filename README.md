@@ -11,6 +11,15 @@
         <a href="#apache-config">Apache Config</a>
       </li>
       <li>
+        <a href="#handlers-folder">Handlers Folder</a>
+      </li>
+      <li>
+        <a href="#includes-folder">Includes Folder</a>
+      </li>
+      <li>
+        <a href="#media-folder">Media Folder</a>
+      </li>
+      <li>
         <a href="#url-keywords">URL keywords</a>
       </li>
     </ul>
@@ -47,41 +56,33 @@ and the script will generate any missing file/folder as follow:
 <hr>
 
 ### Configs
-Configs file `API/configs.php` contain some data like project name, databases, folders
-#### Settings
-settings has the name of the project and if it's runing in debug state where some stats are shown.<br>
-`mzAPI::SETTINGS(string $PROJECT_NAME = null, bool $DEBUG_MODE = false): void`
-```sh
-// Settings
-mzAPI::SETTINGS('Project name', true);
-```
-#### Folders
-Folders containing all the outside folders the handlers will use.<br>
-`mzAPI::FOLDERS(string $name = null, string $path = null, bool $create = false): string`
-```sh
-// Folders
-mzAPI::FOLDERS('public', '../public', true);
-```
-And used as such
-```sh
-mzAPI::FOLDERS('public', '../public', true);
-```
-#### Databases
-  ```sh
-  // Databases
-  mzAPI::DATABASE(
-    'main',
-    new mzDatabase(
-      'mysql',
-      'localhost',
-      'exabytee_erp_dev',
-      'exabytee_admin',
-      'admin@exabyte-eg.com',
-      mzParams::headers('User-Timezone')
-    ),
-  );
-  ```
-  
+Configs file `API/configs.php` contain some data like project name, databases
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+<hr>
+
+### Apache Config
+Apache config file `API/.htaccess` contain some php settings and an important file so the APIs coud run, edit with discretion.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+<hr>
+
+### Handlers Folder
+All Api handlers files will be stored in `API/handlers/` and will be called as follow:
+* Real files `API/handlers/example.php`, `API/handlers/test/example.php`,
+* Files urls `API/handlers/example`, `API/handlers/test/example`,
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+<hr>
+
+### Includes Folder
+Apache config file `API/.htaccess` contain some php settings and an important file so the APIs coud run, edit with discretion.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+<hr>
+
+### Media Folder
+Apache config file `API/.htaccess` contain some php settings and an important file so the APIs coud run, edit with discretion.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
