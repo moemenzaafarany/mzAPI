@@ -8,10 +8,10 @@
         <a href="#configs">Configs</a>
       </li>
       <li>
-        <a href="#php-ini">PHP INI</a>
+        <a href="#apache-config">Apache Config</a>
       </li>
       <li>
-        <a href="#apache-config">Apache Config</a>
+        <a href="#url-keywords">URL keywords</a>
       </li>
     </ul>
   </li>
@@ -35,13 +35,13 @@
 <hr>
 
 ## Getting Started
-mzAPI doesn't need installation just put the folder in you api folder as `API/_mzAPI` and run the `API/_mzAPI/mzAPI.php` file
+mzAPI doesn't need installation just put the folder in you api folder as `API/_mzAPI` and run the `API/_mzAPI/index.php` file
 and the script will generate any missing file/folder as follow:
-* `API/handlers` -> Any php script the user will connect to is here.
-* `API/includes` -> Any php script used by more than one handler is here.
-* `API/configs.php` -> configs for project, databases, folders, etc.
-* `API/.htaccess` -> not to be changed or mzAPI will not function as intended.
-* `API/php.ini` -> PHP settings, update as needed.
+* `API/handlers/`   -> Any php script the user will connect to is here.
+* `API/includes/`   -> Any php script used by more than one handler is here.
+* `API/media/`      -> Any files uploaded to be saved here.
+* `API/configs.php` -> Php configs file, for project, databases, folders, etc.
+* `API/.htaccess`   -> Apache configs file, Change as per needed,
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
