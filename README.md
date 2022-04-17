@@ -28,9 +28,6 @@
     <a href="#tools">Tools</a>
     <ul>
       <li>
-        <a href="#mzapi">mzAPI</a>
-      </li>
-      <li>
         <a href="#mzdatabase">mzDatabase</a>
       </li>
       <li>
