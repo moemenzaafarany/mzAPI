@@ -54,7 +54,7 @@ and the script will generate any missing file/folder as follow:
 
 ### Configs
 Configs file `API/configs.php` contain some data like project name, databases
-```sh
+```php
 <?php
 // Project title
 mzAPI::$TITLE = 'Project';
@@ -132,20 +132,20 @@ Some keywords are reserved in mzAPI as follow: <br>
 mzAPI is the core class of the api, and has many functions as follow:
 - `mzAPI::DB(string $name, mzDatabase $database = null)`: ?mzDatabase | Used to add or get databases to be used in the handlers. <br>
   Add a db to be used in the handlers.
-  ```sh
+  ```php
   mzAPI::DB("main", new mzDatabase());
   ```
   Get db to be used in the handlers.
-  ```sh
+  ```php
   mzAPI::DB("main")->connect();
   ```
 - `mzAPI::response(int $status = null, string $error = null, string $message = null, $data = null, $x = null)`: void | Used to convey data by handlers. <br>
-  ```sh
+  ```php
   mzAPI::response(200, null, 'success', ["data" => 1]);
   ```
 - `mzAPI::tools(array $tools = null)`: void | Used to get mzTools for use in a handler. <br>
   Include a tool for use, and list of tools:
-  ```sh
+  ```php
   mzAPI::tools(['mzMailer']);
   ```
   * `mzDatabase`
@@ -160,16 +160,16 @@ mzAPI is the core class of the api, and has many functions as follow:
   * `mzExternalScript`
 - `mzAPI::includes(array $includes = null)`: void | Used include any file in the includes folder to a file in the handlers. <br>
   Include a file for use:
-  ```sh
+  ```php
   mzAPI::includes(['function', 'folder/function']);
   ```
 - `new mzRes(int $status = null, string $error = null, string $message = null, $data = null)` | Used in most mz functions as return value. <br>
   Create a response
-  ```sh
+  ```php
   $r = new mzRes(200, null, 'success', ["data" => 1]);
   ```
   Change to mzAPI::response();
-  ```sh
+  ```php
   $r->response();
   ```
   
