@@ -8,9 +8,6 @@
         <a href="#configs">Configs</a>
       </li>
       <li>
-        <a href="#apache-config">Apache Config</a>
-      </li>
-      <li>
         <a href="#handlers-folder">Handlers Folder</a>
       </li>
       <li>
@@ -25,7 +22,10 @@
     </ul>
   </li>
   <li>
-    <a href="#classes">Classes</a>
+    <a href="#core">core</a>
+  </li>
+  <li>
+    <a href="#tools">Tools</a>
     <ul>
       <li>
         <a href="#mzapi">mzAPI</a>
@@ -50,19 +50,36 @@ and the script will generate any missing file/folder as follow:
 * `API/includes/`   -> Any php script used by more than one handler is here.
 * `API/media/`      -> Any files uploaded to be saved here.
 * `API/configs.php` -> Php configs file, for project, databases, folders, etc.
-* `API/.htaccess`   -> Apache configs file, Change as per needed,
+* `API/.htaccess`   -> Apache configs file, Do Not Edit.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
 
 ### Configs
 Configs file `API/configs.php` contain some data like project name, databases
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-<hr>
-
-### Apache Config
-Apache config file `API/.htaccess` contain some php settings and an important file so the APIs coud run, edit with discretion.
+```sh
+<?php
+// Project title
+mzAPI::$TITLE = 'Project';
+// Max connections
+mzAPI::$MAX_CONNS_PER_HOUR = null;
+mzAPI::$MAX_CONNS_PER_MIN = null;
+mzAPI::$MAX_CONNS_PER_SEC = null;
+// Tools
+mzAPI::tools(['mzDatabase', 'mzParams']);
+// Databases
+mzAPI::DB(
+	'main',
+	new mzDatabase(
+		'mysql',
+		'localhost',
+		'dbname',
+		'username',
+		'password',
+		mzParams::headers('User-Timezone')
+	)
+);
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
@@ -106,15 +123,15 @@ In short, any file in media is can be accessed through `API/_media/{file locatio
 ### URL keywords
 Some keywords are reserved in mzAPI as follow: <br>
 * `_media/` is used to access any file in media folder.
+* `_debug/` for using any api in debug mode.
+* `_docs/` will be added soon.
 * `_errors/` is used to display all php errors in log file.
 * `_errors/clear` is used to empty the log file.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
 
-## Classes
-
-### mzAPI:
+## Core:
 mzAPI is the core class of the api, and has many functions as follow:
 - `mzAPI::DB(string $name, mzDatabase $database = null)`: ?mzDatabase | Used to add or get databases to be used in the handlers. <br>
   Add a db to be used in the handlers.
@@ -134,18 +151,20 @@ mzAPI is the core class of the api, and has many functions as follow:
   ```sh
   mzAPI::tools(['mzMailer']);
   ```
+  * `mzDatabase`
   * `mzExcel`
   * `mzFiles`
   * `mzFirebase`
   * `mzFtp`
   * `mzMailer`
+  * `mzParams`
   * `mzPayment`
   * `mzPdf`
   * `mzExternalScript`
 - `mzAPI::includes(array $includes = null)`: void | Used include any file in the includes folder to a file in the handlers. <br>
   Include a file for use:
   ```sh
-  mzAPI::tools(['mzMailer']);
+  mzAPI::includes(['function', 'folder/function']);
   ```
 - `new mzRes(int $status = null, string $error = null, string $message = null, $data = null)` | Used in most mz functions as return value. <br>
   Create a response
@@ -157,17 +176,59 @@ mzAPI is the core class of the api, and has many functions as follow:
   $r->response();
   ```
   
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
 
+## Tools:
+
 ### mzDatabase:
 mzDatabase is the database connection class for mz, and is used as follow:
-- `$db = new mzDatabase(String $database_type, String $database_host, String $database_name, String $database_user, String $database_pass, Int $timezoneInMinutes = null)`<br>
+- `$db = new mzDatabase(String $database_type, String $database_host, String $database_name, String $database_user, String $database_pass, Int $timezoneInMinutes = null)`: void <br>
   Constructor which is used to add the database credentials.
-- `$db->connect()`: mzRes | connects with the database <br>
-  Constructor which is used to add the database credentials.
-
+- `$r = $db->connect()`: mzRes | connects with the database. <br>
+  returns `$r->status == 200` on success or `$r->status != 200` on error.
+- `$r = $db->beginTransaction()`: bool | begins database transaction. <br>
+  returns `$r = true` on success or `$r = false` on error.
+- `$r = $db->endTransaction(bool $rollback = false)`: bool | ends database transaction and commit/rollback changes. <br>
+  returns `$r = true` on success or `$r = false` on error.
+- `$r = $db->lastInsertId()`: string | get last insert id of auto_increment from the database. <br>
+  returns `$r = string` on success or `$r = null` on error.
+- `$r = $db->listTables()`: mzRes | lists the tables in the database. <br>
+  returns `$r->status == 200`$`$r->data == []` on success or `$r->status != 200` on error.
+- `$r = $db->listKeys()`: mzRes | lists the primary/foreign keys in the database. <br>
+  returns `$r->status == 200`&`$r->data == []` on success or `$r->status != 200` on error.
+- `$r = $db->listColumns(String $table)`: mzRes | lists columns of a table. <br>
+  returns `$r->status == 200`&`$r->data == []` on success or `$r->status != 200` on error.
+- `$r = $db->selectVersion()`: mzRes | Gets the mysql/database version. <br>
+  returns `$r->status == 200`&`$r->data == version` on success or `$r->status != 200` on error.
+- `$r = $db->selectTimestamp()`: mzRes | Gets the current timestamp based on the timezone of the connection. <br>
+  returns `$r->status == 200`&`$r->data == timestamp` on success or `$r->status != 200` on error.
+- `$r = $db->select(String $table, String $columns = null, String $join = null, String $arguments = "0", array $argument_bindings = null)`: mzRes <br>
+  select statment in the database. <br>
+  returns `$r->status == 200`&`$r->data == []` on success or `$r->status != 200` on error.
+  - `$columns` is put as `['key'=>'value']` where key is column name in table.
+  - `$join` is put as `LEFT JOIN table ON column=column` where any arguments between `SELECT column` and `WHERE` is put.
+  - `$arguments` is put as `1`|`id=?` where any arguments between after `WHERE` is put.
+  - `$argument_bindings` is put as `['value']` where key is index which is put in where.
+- `$r = $db->insert(String $table, array $data)`: mzRes <br>
+  insert statment in the database. <br>
+  returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
+  - `$data` is put as `['key'=>'value']` where key is column name in table.
+- `$r = $db->update(String $table, array $data, String $arguments = "0", array $argument_bindings = null)`: mzRes <br>
+  update statment in the database. <br>
+  returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
+  - `$data` is put as `['key'=>'value']` where key is column name in table.
+  - `$arguments` is put as `1`|`id=?` where any arguments between after `WHERE` is put.
+  - `$argument_bindings` is put as `['value']` where key is index which is put in where.
+- `$r = $db->delete(String $table, String $arguments = "0", array $argument_bindings = null)`: mzRes <br>
+  delete statment in the database. <br>
+  returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
+  - `$arguments` is put as `1`|`id=?` where any arguments between after `WHERE` is put.
+  - `$argument_bindings` is put as `['value']` where key is index which is put in where.
+- `$r = $db->execute(String $query, array $argument_bindings = null)`: mzRes <br>
+  execute custom statment in the database. <br>
+  returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
+  - `$argument_bindings` is put as `['value']` where key is index which is put in where.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
