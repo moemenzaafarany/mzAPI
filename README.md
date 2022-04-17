@@ -184,22 +184,40 @@ mzDatabase is the database connection class for mz, and is used as follow:
   Constructor which is used to add the database credentials.
 - `$r = $db->connect()`: mzRes | connects with the database. <br>
   returns `$r->status == 200` on success or `$r->status != 200` on error.
+  <br>
+  
 - `$r = $db->beginTransaction()`: bool | begins database transaction. <br>
   returns `$r = true` on success or `$r = false` on error.
+  <br>
+  
 - `$r = $db->endTransaction(bool $rollback = false)`: bool | ends database transaction and commit/rollback changes. <br>
   returns `$r = true` on success or `$r = false` on error.
+  <br>
+  
 - `$r = $db->lastInsertId()`: string | get last insert id of auto_increment from the database. <br>
   returns `$r = string` on success or `$r = null` on error.
+  <br>
+  
 - `$r = $db->listTables()`: mzRes | lists the tables in the database. <br>
   returns `$r->status == 200`$`$r->data == []` on success or `$r->status != 200` on error.
+  <br>
+  
 - `$r = $db->listKeys()`: mzRes | lists the primary/foreign keys in the database. <br>
   returns `$r->status == 200`&`$r->data == []` on success or `$r->status != 200` on error.
+  <br>
+  
 - `$r = $db->listColumns(String $table)`: mzRes | lists columns of a table. <br>
   returns `$r->status == 200`&`$r->data == []` on success or `$r->status != 200` on error.
+  <br>
+  
 - `$r = $db->selectVersion()`: mzRes | Gets the mysql/database version. <br>
   returns `$r->status == 200`&`$r->data == version` on success or `$r->status != 200` on error.
+  <br>
+  
 - `$r = $db->selectTimestamp()`: mzRes | Gets the current timestamp based on the timezone of the connection. <br>
   returns `$r->status == 200`&`$r->data == timestamp` on success or `$r->status != 200` on error.
+  <br>
+  
 - `$r = $db->select(String $table, String $columns = null, String $join = null, String $arguments = "0", array $argument_bindings = null)`: mzRes <br>
   select statment in the database. <br>
   returns `$r->status == 200`&`$r->data == []` on success or `$r->status != 200` on error.
@@ -207,21 +225,29 @@ mzDatabase is the database connection class for mz, and is used as follow:
   - `$join` is put as `LEFT JOIN table ON column=column` where any arguments between `SELECT column` and `WHERE` is put.
   - `$arguments` is put as `1`|`id=?` where any arguments between after `WHERE` is put.
   - `$argument_bindings` is put as `['value']` where key is index which is put in where.
+  <br>
+  
 - `$r = $db->insert(String $table, array $data)`: mzRes <br>
   insert statment in the database. <br>
   returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
   - `$data` is put as `['key'=>'value']` where key is column name in table.
+  <br>
+  
 - `$r = $db->update(String $table, array $data, String $arguments = "0", array $argument_bindings = null)`: mzRes <br>
   update statment in the database. <br>
   returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
   - `$data` is put as `['key'=>'value']` where key is column name in table.
   - `$arguments` is put as `1`|`id=?` where any arguments between after `WHERE` is put.
   - `$argument_bindings` is put as `['value']` where key is index which is put in where.
+  <br>
+  
 - `$r = $db->delete(String $table, String $arguments = "0", array $argument_bindings = null)`: mzRes <br>
   delete statment in the database. <br>
   returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
   - `$arguments` is put as `1`|`id=?` where any arguments between after `WHERE` is put.
   - `$argument_bindings` is put as `['value']` where key is index which is put in where.
+  <br>
+  
 - `$r = $db->execute(String $query, array $argument_bindings = null)`: mzRes <br>
   execute custom statment in the database. <br>
   returns `$r->status == 200` on success or `$r->status != 200` on error. <br>
@@ -229,3 +255,11 @@ mzDatabase is the database connection class for mz, and is used as follow:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <hr>
+
+### mzParams:
+mzDatabase is the database connection class for mz, and is used as follow:
+- `$db = new mzDatabase(String $database_type, String $database_host, String $database_name, String $database_user, String $database_pass, Int $timezoneInMinutes = null)`: void <br>
+  Constructor which is used to add the database credentials.
+- `$r = $db->connect()`: mzRes | connects with the database. <br>
+  returns `$r->status == 200` on success or `$r->status != 200` on error.
+  <br>
