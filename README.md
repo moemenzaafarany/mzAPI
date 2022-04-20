@@ -22,7 +22,7 @@
     </ul>
   </li>
   <li>
-    <a href="#core">core</a>
+    <a href="#core">Core</a>
   </li>
   <li>
     <a href="#tools">Tools</a>
