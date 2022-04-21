@@ -2,11 +2,11 @@
 /* V: 1.0.0 */
 class mzParams
 {
-    //===============================================================================// Params
+    //====================================// Params
     private static $params = [];
     private static $errors = [];
     private static $_HEADERS;
-    //===============================================================================// data
+    //====================================// data
     //============================================================// headers
     static function server(string $name = null)
     {
@@ -47,7 +47,7 @@ class mzParams
         }
         return @$_FILES;
     }
-    //===============================================================================// Keys
+    //====================================// Keys
     //============================================================// encrypt
     public static function encrypt(string $name, array $value = null, string $key = "")
     {
@@ -97,7 +97,7 @@ class mzParams
         // return
         mzParams::$params[$name] = $value;
     }
-    //===============================================================================// Add
+    //====================================// Add
     //============================================================// Param
     public static function addParam(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, int $min_length = null, int $max_length = null, array $check_for_types = null, int $array_min_items = null, int $array_max_items = null)
     {
@@ -514,7 +514,7 @@ class mzParams
             mzParams::$params[$name] = $rs->data;
         }
     }
-    //===============================================================================// get
+    //====================================// get
     //============================================================// Token
     public static function getToken(string $name, int $length, int $array_length = null)
     {
@@ -574,7 +574,7 @@ class mzParams
         // return
         mzParams::$params[$name] = long2ip(ip2long($ip));
     }
-    //===============================================================================// Upload
+    //====================================// Upload
     //============================================================// UploadFile
     public static function uploadFile(string $name, string $path = null, string $filename = null, bool $media = true)
     {
@@ -612,7 +612,7 @@ class mzParams
             return;
         }
     }
-    //===============================================================================// excute
+    //====================================// excute
     //============================================================// ExcuteEquation
     public static function excuteEquation(string $name, array $variables = [])
     {
@@ -645,7 +645,7 @@ class mzParams
             return;
         }
     }
-    //===============================================================================// Validators
+    //====================================// Validators
     //============================================================// Array
     private static function _checkArray($value = null, bool $is_required = false, int $array_min_items = null, int $array_max_items = null): mzRes
     {
@@ -871,7 +871,7 @@ class mzParams
         // return
         return new mzRes(200, null, null, $token);
     }
-    //===============================================================================// functions
+    //====================================// functions
     //============================================================// errors
     public static function errors(string $n = null)
     {

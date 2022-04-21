@@ -2,7 +2,7 @@
 /* 1.0.0 */
 class mzDatabase
 {
-    //===============================================================================//
+    //====================================//
     public array $supported_types = ['mysql'];
     ///
     public string $database_type = "";
@@ -13,7 +13,7 @@ class mzDatabase
     public string $timezone = "+00:00";
     ///
     public ?PDO $conn = null;
-    //===============================================================================//
+    //====================================//
     public function __construct(String $database_type, String $database_host, String $database_name, String $database_user, String $database_pass, Int $timezoneInMinutes = null)
     {
         if (!in_array($database_type, $this->supported_types)) return new Exception('unsupported_database_type');
@@ -30,8 +30,8 @@ class mzDatabase
             $this->timezone = $s . sprintf("%02d", $h) . ":" . sprintf("%02d", $m);
         }
     }
-    //===============================================================================//
-    //===============================================================================//
+    //====================================//
+    //====================================//
     public function connect(): mzRes
     { //array(status, results);
         try {
@@ -45,25 +45,25 @@ class mzDatabase
             return new mzRes(500, "connection_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function beginTransaction(): bool
     { //array(status, results);
         return $this->conn->beginTransaction();
     }
-    //===============================================================================//
+    //====================================//
     public function endTransaction(bool $rollback = false): bool
     { //array(status, results);
 
         if ($rollback == true) return $this->conn->rollBack();
         return $this->conn->commit();
     }
-    //===============================================================================//
+    //====================================//
     public function lastInsertId(): string
     { //array(status, results);
         return @$this->conn->lastInsertId();
     }
-    //===============================================================================//
-    //===============================================================================//
+    //====================================//
+    //====================================//
     public function listTables(): mzRes
     { //array(status, results);
         try {
@@ -74,7 +74,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function listKeys(): mzRes
     { //array(status, results);
         try {
@@ -85,7 +85,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function listColumns(String $table): mzRes
     { //array(status, results);
         try {
@@ -96,7 +96,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function selectVersion(): mzRes
     { //array(status, results);
         try {
@@ -107,7 +107,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function selectTimestamp(): mzRes
     { //array(status, results);
         try {
@@ -118,7 +118,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function select(String $table, String $columns = null, String $join = null, String $arguments = "0", array $argument_bindings = null): mzRes
     { //array(status, results);
         try {
@@ -137,7 +137,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function insert(String $table, array $data): mzRes
     { //array(status, results);
         try {
@@ -164,7 +164,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function update(String $table, array $data, String $arguments = "0", array $argument_bindings = null): mzRes
     { //array(status, results);
         try {
@@ -201,7 +201,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function delete(String $table, String $arguments = "0", array $argument_bindings = null): mzRes
     { //array(status, results);
         try {
@@ -217,7 +217,7 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
+    //====================================//
     public function execute(String $query, array $argument_bindings = null): mzRes
     { //array(status, results);
         try {
@@ -233,6 +233,6 @@ class mzDatabase
             return new mzRes(500, "query_failed={$e->getMessage()}");
         }
     }
-    //===============================================================================//
-    //===============================================================================//
+    //====================================//
+    //====================================//
 }

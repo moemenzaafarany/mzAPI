@@ -1,12 +1,12 @@
 <?php
 /* 1.0.0 */
-//===============================================================================//
+//====================================//
 // eshopping
 require_once("plugins/eshopping-EGY_national_bank_of_egypt/SME.php");
-//===============================================================================//
+//====================================//
 class mzPayment
 {
-  //===============================================================================//
+  //====================================//
   private static $EGY_BANK_national_bank_of_egypt_params = [
     "actions" => ["payment", "refund", "unmatched_refund", "preauth", "capture", "reversal"],
     "type" => ["callcentre", "cardpresent", "ecommerce", "internet", "ivr", "mailorder", "telephoneorder"],
@@ -14,7 +14,7 @@ class mzPayment
     "tokenisations" => [0 => "Default", 1 => "Do not tokenise", 2 => "Tokenise if customer opts in", 3 => "Always tokenise"],
     "currencies" => ["DZD" => "Algerian Dinar", "ARS" => "Argentine Peso", "AUD" => "Australian Dollar", "BSD" => "Bahamian Dollar", "BHD" => "Bahraini Dinar", "BDT" => "Bangladeshi Taka", "AMD" => "Armenian Dram", "BBD" => "Barbados Dollar", "BMD" => "Bermudian Dollar", "BTN" => "Bhutanese Ngultrum", "BOB" => "Boliviano", "BWP" => "Botswana Pula", "BZD" => "Belize Dollar", "SBD" => "Solomon Islands Dollar", "BND" => "Brunei Dollar", "MMK" => "Myanmar Kyat", "BIF" => "Burundi Franc", "KHR" => "Cambodian Riel", "CAD" => "Canadian Dollar", "CVE" => "Cape Verde Escudo", "KYD" => "Cayman Islands Dollar", "LKR" => "Sri Lanka Rupee", "CLP" => "Chilean Peso", "CNY" => "Yuan Renminbi", "KMF" => "Comoros Franc", "CRC" => "Costa Rican Colon", "HRK" => "Croatian Kuna", "CUP" => "Cuban Peso", "CZK" => "Czech Koruna", "DKK" => "Danish Krone", "DOP" => "Dominican Peso", "ETB" => "Ethiopian Birr", "ERN" => "Eritrean Nakfa", "FKP" => "Falkland Islands Pound", "FJD" => "Fiji Dollar", "DJF" => "Djibouti Franc", "GMD" => "Gambian Dalasi", "GIP" => "Gibraltar Pound", "GTQ" => "Guatemalan Quetzal", "GNF" => "Guinea Franc", "GYD" => "Guyana Dollar", "HTG" => "Haitian Gourde", "HNL" => "Honduran Lempira", "HKD" => "Hong Kong Dollar", "HUF" => "Hungarian Forint", "ISK" => "Iceland Krona", "INR" => "Indian Rupee", "IDR" => "Indonesian Rupiah", "IRR" => "Iranian Rial", "IQD" => "Iraqi Dinar", "ILS" => "Israeli New Shekel", "JMD" => "Jamaican Dollar", "JPY" => "Japanese Yen", "KZT" => "Kazakhstan Tenge", "JOD" => "Jordanian Dinar", "KES" => "Kenyan Shilling", "KPW" => "North Korean Won", "KRW" => "Korean Won", "KWD" => "Kuwaiti Dinar", "KGS" => "Kyrgyzstani Som", "LAK" => "Lao Kip", "LBP" => "Lebanese Pound", "LSL" => "Lesotho Loti", "LRD" => "Liberian Dollar", "LYD" => "Libyan Dinar", "MOP" => "Macau Pataca", "MWK" => "Malawi Kwacha", "MYR" => "Malaysian Ringgit", "MVR" => "Maldive Rufiyaa", "MRO" => "Mauritanian Ouguiya", "MUR" => "Mauritius Rupee", "MXN" => "Mexican Nuevo Peso", "MNT" => "Mongolian Tugrik", "MDL" => "Moldovan Leu", "MAD" => "Moroccan Dirham", "OMR" => "Omani Rial", "NAD" => "Namibian Dollar", "NPR" => "Nepalese Rupee", "ANG" => "Netherlands Antillean guilder", "AWG" => "Aruban Guilder", "VUV" => "Vanuatu Vatu", "NZD" => "New Zealand Dollar", "NIO" => "Nicaraguan Cordoba Oro", "NGN" => "Nigerian Naira", "NOK" => "Norwegian Krone", "PKR" => "Pakistan Rupee", "PAB" => "Panamanian Balboa", "PGK" => "Papua New Guinea Kina", "PYG" => "Paraguay Guarani", "PEN" => "Peruvian Nuevo Sol", "PHP" => "Philippine Peso", "QAR" => "Qatari Rial", "RUB" => "Russian Ruble", "RWF" => "Rwanda Franc", "SHP" => "St. Helena Pound", "STD" => "Dobra", "SAR" => "Saudi Riyal", "SCR" => "Seychelles Rupee", "SLL" => "Sierra Leone Leone", "SGD" => "Singapore Dollar", "VND" => "Vietnamese Dong", "SOS" => "Somali Shilling", "ZAR" => "South African Rand", "SSP" => "South Sudan Pound", "SZL" => "Swaziland Lilangeni", "SEK" => "Swedish Krona", "CHF" => "Swiss Franc", "SYP" => "Syrian Pound", "THB" => "Thai Baht", "TOP" => "Tongan Paanga", "TTD" => "Trinidad and Tobago Dollar", "AED" => "Arab Emirates Dirham", "TND" => "Tunisian Dollar", "UGX" => "Uganda Shilling", "MKD" => "Denar", "EGP" => "Egyptian Pound", "GBP" => "Pound sterling", "TZS" => "Tanzanian Shilling", "USD" => "US Dollar", "UYU" => "Uruguayan Peso", "UZS" => "Uzbekistan Sum", "WST" => "Samoan Tala", "YER" => "Yemeni Rial", "TWD" => "New Taiwan dollar", "CUC" => "Cuban convertible peso", "ZWL" => "Zimbabwean Dollar", "TMT" => "Turkmenistani manat", "GHS" => "Ghanaian cedi", "VEF" => "Venezuelan bolívar", "SDG" => "Sudanese pound", "RSD" => "Serbian dinar", "MZN" => "Mozambican metical", "AZN" => "Azerbaijani manat", "RON" => "Romanian new leu", "TRY" => "Turkish lira", "XAF" => "CFA franc BEAC", "XCD" => "East Caribbean dollar", "XOF" => "Communauté Financière Africaine (BCEAO) Franc", "XPF" => "Comptoirs Franç ais du Pacifique (CFP) Franc", "XDR" => "International Monetary Fund (IMF) Special Drawing Rights", "ZMW" => "Zambia Kwacha", "SRD" => "Suriname Dollar", "MGA" => "Malagasy Ariary", "AFN" => "Afghan Afghani", "TJS" => "Tajikistani Somoni", "AOA" => "Angolan Kwanza", "BYR" => "Belarusian Ruble", "BGN" => "Bulgarian lev", "CDF" => "Congolese Franc", "BAM" => "Bosnia and Herzegovina Convertible Marka", "EUR" => "Euro", "UAH" => "Ukrainian Hryvnia", "GEL" => "Georgian Lari", "PLN" => "Poland Zloty", "BRL" => "Brazil Real"],
   ];
-  //===============================================================================//
+  //====================================//
   public function EGY_BANK_national_bank_of_egypt(bool $TestMode = true, string $username, string $merchantnumber, string $password, string $Action, float $Amount, string $CardNumber, string $Cvn, string $ExpiryDate, string $Crn1, string $Currency, string $MerchantReference, string $OriginalTxnNumber, string $EmailAddress, string $TokenisationMode, string $SubType, string $Type): mzRes
   { //array(status, results);
     try {
@@ -119,7 +119,7 @@ class mzPayment
       return new mzRes(500, "payment_failed={$this->PHPMailer->ErrorInfo}");
     }
   }
-  //===============================================================================//
+  //====================================//
   public function EGY_BANK_national_bank_of_egypt2(bool $TestMode = true, string $username, string $merchantnumber, string $password, string $Action, float $Amount, string $CardNumber, string $Cvn, string $ExpiryDate, string $Crn1, string $Currency, string $MerchantReference, string $OriginalTxnNumber, string $EmailAddress, string $TokenisationMode, string $SubType, string $Type): mzRes
   { //array(status, results);
 
@@ -323,7 +323,7 @@ class mzPayment
       return new mzRes(200, "email_not_sent=" . $this->PHPMailer->ErrorInfo);
     }
   }
-  //===============================================================================//
+  //====================================//
   public function cURL(string $url, $idk): mzRes
   { //array(status, results);
     $r = [];
@@ -352,5 +352,5 @@ class mzPayment
 
     return (object) $r;
   }
-  //===============================================================================//
+  //====================================//
 }

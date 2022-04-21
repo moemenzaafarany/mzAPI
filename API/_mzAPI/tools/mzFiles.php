@@ -2,7 +2,7 @@
 /* 1.0.0 */
 class mzFiles
 {
-    //===============================================================================//
+    //====================================//
     public static function scan(string $path, bool $deep_scan = false, bool $get_size = false): mzRes
     {
         try {
@@ -32,7 +32,7 @@ class mzFiles
             return new mzRes(500, "scan_failed=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     private static function recurringScan(string $path, bool $deep_scan = false, bool $get_size = false, array &$array = []): array
     {
         $path = rtrim($path, DIRECTORY_SEPARATOR);
@@ -47,7 +47,7 @@ class mzFiles
         }
         return $array;
     }
-    //===============================================================================//
+    //====================================//
     private static function fileDetails(string $path, bool $size = false, bool $get_size = false): array
     {
         $arr = [];
@@ -60,7 +60,7 @@ class mzFiles
         $arr['modified'] = filemtime($path);
         return $arr;
     }
-    //===============================================================================//
+    //====================================//
     private static function getSize(string $path, int &$size = 0): int
     {
         $size += filesize($path);
@@ -71,7 +71,7 @@ class mzFiles
         }
         return $size;
     }
-    //===============================================================================//
+    //====================================//
     public static function file(string $path, bool $create = false): mzRes
     {
         try {
@@ -93,7 +93,7 @@ class mzFiles
             return new mzRes(500, "file_error=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     public static function folder(string $path, bool $create = false): mzRes
     {
         try {
@@ -107,7 +107,7 @@ class mzFiles
             return new mzRes(500, "folder_error=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     public static function delete(string $path): mzRes
     {
         try {
@@ -125,7 +125,7 @@ class mzFiles
             return new mzRes(500, "delete_failed=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     private static function recurringDelete(string $path, array &$array = []): array
     {
         $array = [];
@@ -140,7 +140,7 @@ class mzFiles
         if (!rmdir($path)) $array[] = $path;
         return $array;
     }
-    //===============================================================================//
+    //====================================//
     public static function rename(string $path, string $name): mzRes
     {
         try {
@@ -156,7 +156,7 @@ class mzFiles
             return new mzRes(500, "rename_failed=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     public static function move(string $path, string $move_path, bool $replace = false): mzRes
     {
         try {
@@ -176,7 +176,7 @@ class mzFiles
             return new mzRes(500, "move_failed=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     public static function copy(string $path, string $copy_path, bool $replace = false): mzRes
     {
         try {
@@ -215,7 +215,7 @@ class mzFiles
             return new mzRes(500, "copy_failed=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     public static function compress(string $path, string $output_path = "", string $type = "application/zip"): mzRes
     {
         try {
@@ -252,7 +252,7 @@ class mzFiles
             return new mzRes(500, "compression_failed=$e");
         }
     }
-    //===============================================================================//
+    //====================================//
     public static function extract(string $path, string $output_path = "", bool $replace = false): mzRes
     {
         if (!is_file($path)) return new mzRes(400, null, "path_doesnot_exist");

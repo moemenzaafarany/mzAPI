@@ -2,16 +2,16 @@
 /* 1.0.0 */
 class mzExternalScript
 {
-    //===============================================================================//
+    //====================================//
     public ?string $script_url;
 
-    //===============================================================================//
+    //====================================//
     public function __construct(String $script_url)
     {
         $this->script_url = $script_url;
     }
 
-    //===============================================================================//
+    //====================================//
     private function _cUrl(string $method, string $url, array $headers = null, array $data = null)
     {
         try {
@@ -35,13 +35,13 @@ class mzExternalScript
         }
     }
 
-    //===============================================================================//
+    //====================================//
     public function check(): mzRes
     {
         return $this->_cUrl("POST", $this->script_url, null, ['_run' => 'echo "hi";']);
     }
 
-    //===============================================================================//
+    //====================================//
     public function run(array $tools = null, array $includes = null, array $data = null): mzRes
     {
         $data["_run"] = "";
@@ -69,5 +69,5 @@ class mzExternalScript
         //
         return $this->_cUrl("POST", $this->script_url, null, $data);
     }
-    //===============================================================================//
+    //====================================//
 }
