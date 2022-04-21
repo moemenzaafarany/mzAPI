@@ -726,3 +726,7 @@ class mzExcel
 		return str_replace(['&', '<', '>', "\x03"], ['&amp;', '&lt;', '&gt;', ''], $str);
 	}
 }
+class mzExcel2
+{
+	public ?array $sheets;
+}
