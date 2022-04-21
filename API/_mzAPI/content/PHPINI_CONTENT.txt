@@ -1,0 +1,23 @@
+# mzAPI generated PHP SETTINGS EDIT AS PER NEEDED
+log_errors=on
+display_errors=off
+display_startup_errors=off
+ignore_repeated_errors=off
+ignore_repeated_source=off
+report_memleaks=on
+html_errors=on
+xmlrpc_errors=off
+xmlrpc_error_number=off
+allow_url_fopen=on
+allow_url_include=on
+file_uploads=on
+error_reporting=-1
+log_errors_max_len=1024
+error_log="./errors.log"
+max_execution_time=30
+max_input_time=120
+max_input_vars=10000
+max_file_uploads=10000
+memory_limit=256M
+post_max_size=1000M
+upload_max_filesize=1000M

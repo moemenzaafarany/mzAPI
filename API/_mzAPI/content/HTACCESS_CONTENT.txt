@@ -1,0 +1,5 @@
+# mzAPI generated APACHE SETTINGS DO NOT EDIT
+Options -Indexes
+RewriteEngine On
+Options -Multiviews
+RewriteRule ^(.*)$ _mzAPI/index.php?mzAPIURL=$1 [QSA,END]

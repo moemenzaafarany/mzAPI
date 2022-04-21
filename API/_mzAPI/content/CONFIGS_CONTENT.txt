@@ -1,0 +1,21 @@
+<?php
+// Project title
+mzAPI::$TITLE = 'Project';
+// Max connections
+mzAPI::$MAX_CONNS_PER_HOUR = null;
+mzAPI::$MAX_CONNS_PER_MIN = null;
+mzAPI::$MAX_CONNS_PER_SEC = null;
+// Tools
+mzAPI::tools(['mzDatabase', 'mzParams']);
+// Databases
+mzAPI::DB(
+	'main',
+	new mzDatabase(
+		'mysql',
+		'localhost',
+		'dbname',
+		'username',
+		'password',
+		mzParams::headers('User-Timezone')
+	)
+);
