@@ -119,13 +119,13 @@ class mzDatabase
         }
     }
     //====================================//
-    public function select(String $table, String $columns = null, String $join = null, String $arguments = "0", array $argument_bindings = null): mzRes
+    public function select(String $table, String $columns = null, String $join = null, String $arguments = "0", array $argument_bindings = null, string $group_by = null, string $order_by = null, string $limit = null): mzRes
     { //array(status, results);
         try {
             if (empty($columns)) $columns = "*";
             if (empty($join)) $join = "";
             ///
-            $stmt = $this->conn->prepare("SELECT {$columns} FROM {$table} {$join} WHERE {$arguments};");
+            $stmt = $this->conn->prepare("SELECT {$columns} FROM {$table} {$join} WHERE ({$arguments}){!empty($group_by)?' GROUP BY '.$group_by:''}{!empty($order_by)?' ORDER BY '.$order_by:''}{!empty($limit)?' LIMIT '.$limit:''};");
             ///
             if (!empty($argument_bindings)) {
                 foreach ($argument_bindings as $i => $v) $stmt->bindValue($i + 1, $v);
