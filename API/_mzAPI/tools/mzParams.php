@@ -2,11 +2,11 @@
 /* V: 1.0.0 */
 class mzParams
 {
-    //====================================// Params
+    //===============================================================================// Params
     private static $params = [];
     private static $errors = [];
     private static $_HEADERS;
-    //====================================// data
+    //===============================================================================// data
     //============================================================// headers
     static function server(string $name = null)
     {
@@ -47,7 +47,7 @@ class mzParams
         }
         return @$_FILES;
     }
-    //====================================// Keys
+    //===============================================================================// Keys
     //============================================================// encrypt
     public static function encrypt(string $name, array $value = null, string $key = "")
     {
@@ -97,9 +97,9 @@ class mzParams
         // return
         mzParams::$params[$name] = $value;
     }
-    //====================================// Add
+    //===============================================================================// Add
     //============================================================// Param
-    public static function addParam(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, int $min_length = null, int $max_length = null, array $check_for_types = null, int $array_min_items = null, int $array_max_items = null)
+    public static function addParam(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, int $min_length = null, int $max_length = null, array $_check_for_types = null, int $array_min_items = null, int $array_max_items = null)
     {
         // upload value
         if ($is_uploaded == true && !array_key_exists($name, mzParams::inputs()) && $exclude == true) return;
@@ -116,7 +116,7 @@ class mzParams
                 foreach (mzParams::$params[$name] as $i => $v) {
                     mzParams::$params[$name][$i] = [];
                     $errors = [];
-                    foreach ($check_for_types as $type) {
+                    foreach ($_check_for_types as $type) {
                         switch ($type) {
                             case "email":
                                 $rs = mzParams::_checkEmail($v, $is_required, false, $min_length, $max_length);
@@ -130,14 +130,14 @@ class mzParams
                                 break;
                         }
                     }
-                    if (Count($errors) == Count($check_for_types)) mzParams::$errors[$name][$i] = $errors;
+                    if (Count($errors) == Count($_check_for_types)) mzParams::$errors[$name][$i] = $errors;
                 }
             }
         } else {
             $v = mzParams::$params[$name];
             mzParams::$params[$name] = [];
             $errors = [];
-            foreach ($check_for_types as $type) {
+            foreach ($_check_for_types as $type) {
                 switch ($type) {
                     case "email":
                         $rs = mzParams::_checkEmail($v, $is_required, false, $min_length, $max_length);
@@ -151,7 +151,7 @@ class mzParams
                         break;
                 }
             }
-            if (Count($errors) == Count($check_for_types)) mzParams::$errors[$name] = $errors;
+            if (Count($errors) == Count($_check_for_types)) mzParams::$errors[$name] = $errors;
         }
     }
     //============================================================// Int
@@ -215,7 +215,7 @@ class mzParams
         }
     }
     //============================================================// String
-    public static function addString(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, int $min_length = null, int $max_length = null, array $format_options = null, array $check_for_values = null, int $array_min_items = null, int $array_max_items = null)
+    public static function addString(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, int $min_length = null, int $max_length = null, array $format_options = null, array $_check_for_values = null, int $array_min_items = null, int $array_max_items = null)
     {
         // upload value
         if ($is_uploaded == true && !array_key_exists($name, mzParams::inputs()) && $exclude == true) return;
@@ -230,7 +230,7 @@ class mzParams
             // validate values
             if (!empty(mzParams::$params[$name])) {
                 foreach (mzParams::$params[$name] as $i => $v) {
-                    $rs = mzParams::_checkString($v, $is_required, $min_length, $max_length, $format_options, $check_for_values);
+                    $rs = mzParams::_checkString($v, $is_required, $min_length, $max_length, $format_options, $_check_for_values);
                     if ($rs->status != 200) {
                         mzParams::$errors[$name] = [];
                         return mzParams::$errors[$name][$i] = $rs->error;
@@ -239,13 +239,13 @@ class mzParams
                 }
             }
         } else {
-            $rs = mzParams::_checkString(mzParams::$params[$name], $is_required, $min_length, $max_length, $format_options, $check_for_values);
+            $rs = mzParams::_checkString(mzParams::$params[$name], $is_required, $min_length, $max_length, $format_options, $_check_for_values);
             if ($rs->status != 200) return mzParams::$errors[$name] = $rs->error;
             mzParams::$params[$name] = $rs->data;
         }
     }
     //============================================================// Email
-    public static function addEmail(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, bool $check_domain = false, int $min_length = null, int $max_length = null, int $array_min_items = null, int $array_max_items = null)
+    public static function addEmail(string $name, $value = null, bool $is_required = false, bool $is_uploaded = false, bool $exclude = false, bool $is_array = false, bool $_check_domain = false, int $min_length = null, int $max_length = null, int $array_min_items = null, int $array_max_items = null)
     {
         // upload value
         if ($is_uploaded == true && !array_key_exists($name, mzParams::inputs()) && $exclude == true) return;
@@ -260,7 +260,7 @@ class mzParams
             // validate values
             if (!empty(mzParams::$params[$name])) {
                 foreach (mzParams::$params[$name] as $i => $v) {
-                    $rs = mzParams::_checkEmail($v, $is_required, $check_domain, $min_length, $max_length);
+                    $rs = mzParams::_checkEmail($v, $is_required, $_check_domain, $min_length, $max_length);
                     if ($rs->status != 200) {
                         mzParams::$errors[$name] = [];
                         return mzParams::$errors[$name][$i] = $rs->error;
@@ -269,7 +269,7 @@ class mzParams
                 }
             }
         } else {
-            $rs = mzParams::_checkEmail(mzParams::$params[$name], $is_required, $check_domain, $min_length, $max_length);
+            $rs = mzParams::_checkEmail(mzParams::$params[$name], $is_required, $_check_domain, $min_length, $max_length);
             if ($rs->status != 200) return mzParams::$errors[$name] = $rs->error;
             mzParams::$params[$name] = $rs->data;
         }
@@ -514,7 +514,7 @@ class mzParams
             mzParams::$params[$name] = $rs->data;
         }
     }
-    //====================================// get
+    //===============================================================================// get
     //============================================================// Token
     public static function getToken(string $name, int $length, int $array_length = null)
     {
@@ -574,7 +574,7 @@ class mzParams
         // return
         mzParams::$params[$name] = long2ip(ip2long($ip));
     }
-    //====================================// Upload
+    //===============================================================================// Upload
     //============================================================// UploadFile
     public static function uploadFile(string $name, string $path = null, string $filename = null, bool $media = true)
     {
@@ -612,7 +612,7 @@ class mzParams
             return;
         }
     }
-    //====================================// excute
+    //===============================================================================// excute
     //============================================================// ExcuteEquation
     public static function excuteEquation(string $name, array $variables = [])
     {
@@ -645,7 +645,7 @@ class mzParams
             return;
         }
     }
-    //====================================// Validators
+    //===============================================================================// Validators
     //============================================================// Array
     private static function _checkArray($value = null, bool $is_required = false, int $array_min_items = null, int $array_max_items = null): mzRes
     {
@@ -693,7 +693,7 @@ class mzParams
         return new mzRes(200, null, null, $value);
     }
     //============================================================// String
-    private static function _checkString($value = null, bool $is_required = false, int $min_length = null, int $max_length = null, array $format_options = null, array $check_for_values = null): mzRes
+    private static function _checkString($value = null, bool $is_required = false, int $min_length = null, int $max_length = null, array $format_options = null, array $_check_for_values = null): mzRes
     {
         // _check if required and empty
         if ($is_required == true && (empty($value) && strlen($value) == 0)) return new mzRes(400, "required");
@@ -709,19 +709,19 @@ class mzParams
             $value = mzParams::format($value, $format_options);
         }
         // values
-        if (!empty($check_for_values) && !in_array($value, $check_for_values)) return new mzRes(400, "incorrect_value=" . implode(',', $check_for_values));
+        if (!empty($_check_for_values) && !in_array($value, $_check_for_values)) return new mzRes(400, "incorrect_value=" . implode(',', $_check_for_values));
         // return
         return new mzRes(200, null, null, $value);
     }
     //============================================================// Email
-    private static function _checkEmail($value = null, bool $is_required = false, bool $check_domain = false, int $min_length = null, int $max_length = null): mzRes
+    private static function _checkEmail($value = null, bool $is_required = false, bool $_check_domain = false, int $min_length = null, int $max_length = null): mzRes
     {
         // _check if required and empty
         if ($is_required == true && (empty($value) && strlen($value) == 0)) return new mzRes(400, "required");
         if ($is_required == false && (empty($value) && strlen($value) == 0)) return new mzRes(200);
         // valid
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) return new mzRes(400, "invalid_email");
-        if ($check_domain == true && !checkdnsrr(substr($value, strpos($value, "@") + 1))) return new mzRes(400, "invalid_email_domain");
+        if ($_check_domain == true && !checkdnsrr(substr($value, strpos($value, "@") + 1))) return new mzRes(400, "invalid_email_domain");
         $value = strVal($value);
         // length
         if (!empty($min_length) && strlen($value) < $min_length) return new mzRes(400, "min_length=" . $min_length);
@@ -871,7 +871,7 @@ class mzParams
         // return
         return new mzRes(200, null, null, $token);
     }
-    //====================================// functions
+    //===============================================================================// functions
     //============================================================// errors
     public static function errors(string $n = null)
     {
@@ -1067,34 +1067,4 @@ class mzParams
             mzParams::$errors = [];
         }
     }
-}
-
-class mzParamInt
-{
-    //
-    public ?mzRes $r;
-    //
-    public function __contructor($value = null, bool $is_required = false, int $min_length = null, int $max_length = null, int $min_value = null, int $max_value = null)
-    {
-        try {
-            // _check if required and empty
-            if (is_array($value)) throw new Exception("invalid_int");
-            if ($is_required == false && (empty($value) || strlen($value) == 0)) return new mzRes(200, null, null, null);
-            if ($is_required == true && (empty($value) && strlen($value) == 0)) throw new Exception(400, "required");
-            // valid
-            if (!is_numeric($value)) throw new Exception("invalid_int");
-            $value = intval($value);
-            // length
-            if (!empty($min_length) && strlen($value) <= $min_length) throw new Exception("min_length=$min_length");
-            if (!empty($max_length) && strlen($value) >= $max_length) throw new Exception("max_length=$max_length");
-            // 
-            if (!empty($min_value) && $value <= $min_value) throw new Exception("min_value=$min_value");
-            if (!empty($max_value) && $value >= $max_value) throw new Exception("max_value=$max_value");
-            // return
-            return $this->r = new mzRes(200, null, null, $value);
-        } catch (Exception $e) {
-            return $this->r = new mzRes(400, $e->getMessage(), null, $value);
-        }
-    }
-    //
 }

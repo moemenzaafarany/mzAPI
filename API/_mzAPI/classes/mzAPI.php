@@ -26,6 +26,10 @@ class mzAPI
     private const ERRORS_KEY = "_errors";
     private const ERRORS_CLEAR_KEY = "_errors/clear";
     private const ERRORS_FILE = "errors.log";
+    //====================================// DATA
+    private const DATA_KEY = "_data";
+    private const DATA_DIR = "data/";
+    private const DATA_FILES = ["continents", "languages", "currencies", "countries", "cities"];
     //====================================// DEBUG
     private const DEBUG_KEY = "_debug";
     //====================================// HANDLERS
@@ -74,7 +78,7 @@ class mzAPI
         exit();
     }
     //====================================// Include
-    static private function _inc(string $path = null): bool
+    static public function _inc(string $path = null): bool
     {
         if (is_file($path)) {
             include_once($path);
@@ -336,6 +340,12 @@ class mzAPI
                 echo file_get_contents($errors);
             }
         }
+        // data
+        else if (mzAPI::$URL_ROOT == mzAPI::DATA_KEY) {
+            mzAPI::$DEBUG = true;
+            $file = mzAPI::DATA_DIR . ltrim(mzAPI::$URL_FILE, mzAPI::DATA_KEY) . ".php";
+            if (!mzAPI::_inc($file)) mzAPI::response(404, null, null, mzAPI::DATA_FILES);
+        }
         // debug
         else if (mzAPI::$URL_ROOT == mzAPI::DEBUG_KEY) {
             mzAPI::$DEBUG = true;
@@ -347,7 +357,8 @@ class mzAPI
             $file = mzAPI::HANDLERS_DIR . mzAPI::$URL_FILE . ".php";
             if (!mzAPI::_inc($file)) mzAPI::response(404);
         }
-        exit();
+        // message for empty
+        mzAPI::response(200, null, "no-message", [mzAPI::$URL_ROOT]);
     }
 
     //========================================// end Class
